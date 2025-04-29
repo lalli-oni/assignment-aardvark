@@ -4,7 +4,7 @@ import { Card } from '../models/card';
 type BoardAction =
 	{ type: 'reset' } |
 	{ type: 'flip-card', payload: string } |
-	{ type: 'accept-pair', payload: [number, number] } |
+	{ type: 'accept-pair', payload: [Card, Card] } |
 	{ type: 'complete' }
 
 export function boardReducer(state: Board, action: BoardAction): Board {
@@ -22,10 +22,11 @@ export function boardReducer(state: Board, action: BoardAction): Board {
 			}
 		}
 		case 'accept-pair': {
-			const [firstCard, secondCard] = getCardPair(action.payload, state.cards)
+			const [firstCardIndex, secondCardIndex] = getCardPairIndices(action.payload, state.cards)
+			const [firstCardMatched, secondCardMatched] = matchCards(action.payload)
 			return {
 				...state,
-				cards: state.cards.toSpliced(action.payload[0], 1, firstCard).toSpliced(action.payload[1], 1, secondCard)
+				cards: state.cards.toSpliced(firstCardIndex, 1, firstCardMatched).toSpliced(secondCardIndex, 1, secondCardMatched)
 			}
 		}
 		case 'complete':
@@ -35,6 +36,10 @@ export function boardReducer(state: Board, action: BoardAction): Board {
 	}
 }
 
-function getCardPair(idPair: [number, number], cards: Array<Card>): [Card, Card] {
-	return [cards[idPair[0]], cards[idPair[1]]]
+function getCardPairIndices(cardPair: [Card, Card], cards: Array<Card>): [number, number] {
+	return [cards.findIndex((c) => c.id === cardPair[0].id), cards.findIndex((c) => c.id === cardPair[1].id)]
+}
+
+function matchCards(cardPair: [Card, Card]): [Card, Card] {
+	return [{ ...cardPair[0], matched: true, visibility: 'revealed' }, { ...cardPair[1], matched: true, visibility: 'revealed' }]
 }
