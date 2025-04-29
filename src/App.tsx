@@ -13,8 +13,27 @@ function App() {
   const [state, dispatch] = useReducer(boardReducer, { state: 'ongoing', cards: generateDeck(15) })
 
   function onCardClick(card: Card) {
+    const currentlyRevealedCards = state.cards.filter((c) => c.visibility === 'revealed' && c.matched === false)
     // Flip the card
     dispatch({ type: 'flip-card', payload: card.id })
+
+    if (currentlyRevealedCards.length > 1) {
+      throw new Error(`Currently ${currentlyRevealedCards.length} cards are revealed.`)
+    } else if (currentlyRevealedCards.length > 0) {
+      // NOTE (LTJ): Card becomes disabled when revealed.
+      if (currentlyRevealedCards[0].id === card.id) throw new Error('Attempting to reveal the same card that is already flipped')
+
+      // One card is already revealed, compare the two
+      if (currentlyRevealedCards[0].symbol === card.symbol) {
+        dispatch({ type: 'accept-pair', payload: [currentlyRevealedCards[0], card]})
+        // TODO (LTJ): Check win condition
+      } else {
+        setTimeout(() => {
+          dispatch({ type: 'flip-card', payload: card.id })
+          dispatch({ type: 'flip-card', payload: currentlyRevealedCards[0].id })
+        }, 3000)
+      }
+    }
   }
 
   return (
