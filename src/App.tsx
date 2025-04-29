@@ -1,14 +1,20 @@
+import { useReducer } from 'react'
+
+import { boardReducer } from './state/boardReducer'
+
 import './App.css'
 
 import Board from './components/Board'
 
-const initialState: Board = {
-  state: 'ongoing',
-  cards: []
-}
+import { type Card } from './models/card'
+import { generateDeck } from './util-functions/deckFunctions'
+
+function App() {
+  const [state, dispatch] = useReducer(boardReducer, { state: 'ongoing', cards: generateDeck(15) })
 
   function onCardClick(card: Card) {
-    throw new Error('Card click not implemented.')
+    // Flip the card
+    dispatch({ type: 'flip-card', payload: card.id })
   }
 
   return (
