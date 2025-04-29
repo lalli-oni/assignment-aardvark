@@ -10,10 +10,13 @@ export interface BoardProps {
 }
 
 function Board(props: BoardProps) {
-  const { boardState } = props
+
+  const onCardClick = (card: Card) => {
+    throw new Error('Not implemented on card click.')
+  }
 
   return <main>
-    {boardState.cards.map((card) => (<Card key={card.id} card={card} />))}
+    {boardState.cards.map((card) => (<Card key={card.id} card={card} onClick={onCardClick} />))}
   </main>
 }
 
