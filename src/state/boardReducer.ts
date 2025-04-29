@@ -1,5 +1,6 @@
-import { Board } from '../models/board';
-import { Card } from '../models/card';
+import { type Board } from '../models/board';
+import { type Card } from '../models/card';
+import { generateDeck } from '../util-functions/deckFunctions';
 
 type BoardAction =
 	{ type: 'reset' } |
@@ -7,10 +8,12 @@ type BoardAction =
 	{ type: 'accept-pair', payload: [Card, Card] } |
 	{ type: 'complete' }
 
+export const initialState = (): Board => ({ state: 'ongoing', cards: generateDeck(15) })
+
 export function boardReducer(state: Board, action: BoardAction): Board {
   switch (action.type) {
 		case 'reset':
-			throw new Error('Reset board feature not implemented.')
+			return initialState()
 		case 'flip-card': {
 			const cardIndex = state.cards.findIndex((c) => c.id === action.payload)
 			if (cardIndex === -1) throw new Error(`Can't find card ${action.payload}`)

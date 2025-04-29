@@ -1,16 +1,13 @@
 import { useEffect, useReducer } from 'react'
 
-import { boardReducer } from './state/boardReducer'
-
 import './App.css'
+import { boardReducer, initialState } from './state/boardReducer'
+import { type Card } from './models/card'
 
 import Board from './components/Board'
 
-import { type Card } from './models/card'
-import { generateDeck } from './util-functions/deckFunctions'
-
 function App() {
-  const [state, dispatch] = useReducer(boardReducer, { state: 'ongoing', cards: generateDeck(15) })
+  const [state, dispatch] = useReducer(boardReducer, initialState())
 
   function onCardClick(card: Card) {
     const currentlyRevealedCards = state.cards.filter((c) => c.visibility === 'revealed' && c.matched === false)
@@ -42,11 +39,15 @@ function App() {
     }
   }, [state.cards])
 
-  return (
-      <Board
-        boardState={state}
-        onCardClick={onCardClick}
-      />
+  return (<>
+    <div>
+      <button onClick={() => dispatch({ type: 'reset' })}>Reset</button>
+    </div>
+    <Board
+      boardState={state}
+      onCardClick={onCardClick}
+    />
+  </>
   )
 }
 
