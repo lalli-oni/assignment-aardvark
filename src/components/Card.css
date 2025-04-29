@@ -1,0 +1,8 @@
+/* NOTE (LTJ): In case you were wondering, using this file as a module breaks  */
+.playingCard {
+    padding: 3rem 2rem;
+
+    background-color: green;
+    border: 1px solid white;
+    color: red;
+}
