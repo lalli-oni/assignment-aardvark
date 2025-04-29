@@ -1,4 +1,4 @@
-import { useReducer } from 'react'
+import { useEffect, useReducer } from 'react'
 
 import { boardReducer } from './state/boardReducer'
 
@@ -26,7 +26,6 @@ function App() {
       // One card is already revealed, compare the two
       if (currentlyRevealedCards[0].symbol === card.symbol) {
         dispatch({ type: 'accept-pair', payload: [currentlyRevealedCards[0], card]})
-        // TODO (LTJ): Check win condition
       } else {
         setTimeout(() => {
           dispatch({ type: 'flip-card', payload: card.id })
@@ -35,6 +34,13 @@ function App() {
       }
     }
   }
+
+  // TODO (LTJ): Extracted this to a useEffect hook because it didn't evaluate right after the `accept-pair` dispatch
+  useEffect(() => {
+    if (state.cards.every((c) => c.matched && c.visibility === 'revealed')) {
+      dispatch({ type: 'complete' })
+    }
+  }, [state.cards])
 
   return (
       <Board

@@ -30,7 +30,7 @@ export function boardReducer(state: Board, action: BoardAction): Board {
 			}
 		}
 		case 'complete':
-			throw new Error('Complete game feature not implemented.')
+			return { ...state, state: 'completed' }
 		default:
 			throw new Error('Board reducer encountered unknown action type. ' + action)
 	}

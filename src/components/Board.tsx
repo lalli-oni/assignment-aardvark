@@ -13,9 +13,12 @@ export interface BoardProps {
 function Board(props: BoardProps) {
   const { boardState, onCardClick } = props
 
-  return <main>
-    {boardState.cards.map((card) => (<Card key={card.id} card={card} onClick={onCardClick} />))}
-  </main>
+  return <>
+    <div>{boardState.state === 'completed' ? "You won!" : null}</div>
+    <main>
+      {boardState.cards.map((card) => (<Card key={card.id} card={card} onClick={onCardClick} />))}
+    </main>
+  </>
 }
 
 export default Board
