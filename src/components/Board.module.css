@@ -1,0 +1,13 @@
+/* (main) Playing board area */
+main {
+    max-width: 90%;
+    max-height: 90%;
+    padding: 2rem;
+
+    border: 1px solid white;
+
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
