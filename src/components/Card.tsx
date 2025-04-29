@@ -8,9 +8,11 @@ export interface CardProps {
 }
 
 function Card(props: CardProps) {
+  const enabled = !props.card.matched && props.card.visibility === 'hidden'
+
   return <div
     className="playingCard"
-    onClick={() => props.onClick(props.card)}
+    onClick={() => { if (enabled) props.onClick(props.card) }}
   >
     {props.card.visibility === 'revealed' ?
       <span>
