@@ -7,10 +7,15 @@ const initialState: Board = {
   cards: []
 }
 
-function App() {
+  function onCardClick(card: Card) {
+    throw new Error('Card click not implemented.')
+  }
 
   return (
-      <Board boardState={initialState} />
+      <Board
+        boardState={state}
+        onCardClick={onCardClick}
+      />
   )
 }
 
