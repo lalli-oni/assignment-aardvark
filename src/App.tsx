@@ -7,7 +7,7 @@ import { type Card } from './models/card'
 import Board from './components/Board'
 
 function App() {
-  const [state, dispatch] = useReducer(boardReducer, initialState())
+  const [state, dispatch] = useReducer(boardReducer, null, initialState)
 
   function onCardClick(card: Card) {
     const currentlyRevealedCards = state.cards.filter((c) => c.visibility === 'revealed' && c.matched === false)
