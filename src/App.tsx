@@ -1,4 +1,4 @@
-import { useEffect, useReducer } from 'react'
+import { useEffect, useReducer, useState } from 'react'
 
 import './App.css'
 import { boardReducer, initialState } from './state/boardReducer'
@@ -8,28 +8,31 @@ import Board from './components/Board'
 
 function App() {
   const [state, dispatch] = useReducer(boardReducer, null, initialState)
+  const [revealQueue, setRevealQueue] = useState<Array<Card>>([])
 
   function onCardClick(card: Card) {
-    const currentlyRevealedCards = state.cards.filter((c) => c.visibility === 'revealed' && c.matched === false)
     // Flip the card
+    if (card.visibility === 'revealed' || card.matched) console.error('clicked a revealed or matched card')
     dispatch({ type: 'flip-card', payload: card.id })
 
-    if (currentlyRevealedCards.length > 1) {
-      throw new Error(`Currently ${currentlyRevealedCards.length} cards are revealed.`)
-    } else if (currentlyRevealedCards.length > 0) {
-      // NOTE (LTJ): Card becomes disabled when revealed.
-      if (currentlyRevealedCards[0].id === card.id) throw new Error('Attempting to reveal the same card that is already flipped')
+    if (revealQueue.length % 2 > 0) {
+      const cardToCompare = revealQueue.at(-1)
+      if (cardToCompare === undefined) throw new Error('No card in queue to compare to.')
 
       // One card is already revealed, compare the two
-      if (currentlyRevealedCards[0].symbol === card.symbol) {
-        dispatch({ type: 'accept-pair', payload: [currentlyRevealedCards[0], card]})
+      if (cardToCompare.symbol === card.symbol) {
+        dispatch({ type: 'accept-pair', payload: [cardToCompare, card]})
+        setRevealQueue([...revealQueue.slice(2)])
       } else {
         setTimeout(() => {
-          dispatch({ type: 'flip-card', payload: card.id })
-          dispatch({ type: 'flip-card', payload: currentlyRevealedCards[0].id })
+          dispatch({ type: 'hide-card', payload: card.id })
+          dispatch({ type: 'hide-card', payload: cardToCompare.id })
+          setRevealQueue([...revealQueue.slice(2)])
         }, 3000)
       }
     }
+
+    setRevealQueue([...revealQueue, card])
   }
 
   // TODO (LTJ): Extracted this to a useEffect hook because it didn't evaluate right after the `accept-pair` dispatch
