@@ -15,11 +15,11 @@ function Card(props: CardProps) {
     onClick={() => { if (enabled) props.onClick(props.card) }}
   >
     {props.card.visibility === 'revealed' ?
-      <span>
+      <div className="front">
         {props.card.symbol}
-      </span>
+      </div>
     :
-      <span></span>
+      <div className="back"></div>
     }
   </div>
 }
