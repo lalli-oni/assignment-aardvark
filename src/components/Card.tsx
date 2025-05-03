@@ -17,7 +17,8 @@ function Card(props: CardProps) {
     <div className={`flip-container ${props.card.visibility === 'revealed' ? 'reveal' : ''}`}>
       <div className="front">
         <div className="front-content">
-          {props.card.symbol}
+          <span className="rune">{props.card.symbol}</span>
+          <span>{props.card.label}</span>
         </div>
       </div>
       <div className="back"></div>

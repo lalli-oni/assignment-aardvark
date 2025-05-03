@@ -2,8 +2,6 @@
 .playing-card {
     height: 7rem;
     width: 5rem;
-
-    color: black;
 }
 
 .front {
@@ -54,4 +52,13 @@
 /* Mirror the content of the card front so that it's correct when flipped */
 .front-content {
     transform: scaleX(-1);
+
+    color: black;
+    display: flex;
+    flex-direction: column;
+    gap: 0.9rem;
+}
+
+.playing-card .rune {
+    font-size: 2rem;
 }
