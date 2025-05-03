@@ -11,7 +11,7 @@ function Card(props: CardProps) {
   const enabled = !props.card.matched && props.card.visibility === 'hidden'
 
   return <div
-    className="playingCard"
+    className="playing-card"
     onClick={() => { if (enabled) props.onClick(props.card) }}
   >
     {props.card.visibility === 'revealed' ?
