@@ -1,16 +1,56 @@
+import { useEffect, useReducer, useState } from 'react'
+
 import './App.css'
+import { boardReducer, initialState } from './state/boardReducer'
+import { type Card } from './models/card'
 
 import Board from './components/Board'
 
-const initialState: Board = {
-  state: 'ongoing',
-  cards: []
-}
-
 function App() {
+  const [state, dispatch] = useReducer(boardReducer, null, initialState)
+  const [revealQueue, setRevealQueue] = useState<Array<Card>>([])
 
-  return (
-      <Board boardState={initialState} />
+  function onCardClick(card: Card) {
+    // Flip the card
+    if (card.visibility === 'revealed' || card.matched) console.error('clicked a revealed or matched card')
+    dispatch({ type: 'flip-card', payload: card.id })
+
+    if (revealQueue.length % 2 > 0) {
+      const cardToCompare = revealQueue.at(-1)
+      if (cardToCompare === undefined) throw new Error('No card in queue to compare to.')
+
+      // One card is already revealed, compare the two
+      if (cardToCompare.symbol === card.symbol) {
+        dispatch({ type: 'accept-pair', payload: [cardToCompare, card]})
+        setRevealQueue([...revealQueue.slice(2)])
+      } else {
+        setTimeout(() => {
+          dispatch({ type: 'hide-card', payload: card.id })
+          dispatch({ type: 'hide-card', payload: cardToCompare.id })
+          setRevealQueue([...revealQueue.slice(2)])
+        }, 3000)
+      }
+    }
+
+    setRevealQueue([...revealQueue, card])
+  }
+
+  // TODO (LTJ): Extracted this to a useEffect hook because it didn't evaluate right after the `accept-pair` dispatch
+  useEffect(() => {
+    if (state.cards.every((c) => c.matched && c.visibility === 'revealed')) {
+      dispatch({ type: 'complete' })
+    }
+  }, [state.cards])
+
+  return (<>
+    <div>
+      <button onClick={() => dispatch({ type: 'reset' })}>Reset</button>
+    </div>
+    <Board
+      boardState={state}
+      onCardClick={onCardClick}
+    />
+  </>
   )
 }
 
