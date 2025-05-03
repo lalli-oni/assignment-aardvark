@@ -14,13 +14,14 @@ function Card(props: CardProps) {
     className="playing-card"
     onClick={() => { if (enabled) props.onClick(props.card) }}
   >
-    {props.card.visibility === 'revealed' ?
+    <div className={`flip-container ${props.card.visibility === 'revealed' ? 'reveal' : ''}`}>
       <div className="front">
-        {props.card.symbol}
+        <div className="front-content">
+          {props.card.symbol}
+        </div>
       </div>
-    :
       <div className="back"></div>
-    }
+    </div>
   </div>
 }
 

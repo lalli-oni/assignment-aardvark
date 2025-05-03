@@ -3,9 +3,6 @@
     height: 7rem;
     width: 5rem;
 
-
-
-
     color: black;
 }
 
@@ -30,4 +27,31 @@
     border-radius: 0.3rem;
     outline: 1px solid lightgray;
     outline-offset: -7px;
+    backface-visibility: hidden;
+}
+
+.flip-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+
+    text-align: center;
+    transition: transform 0.8s;
+    transform-style: preserve-3d;
+}
+
+.reveal {
+    transform: rotateY(180deg);
+}
+
+/* Position the front and back side */
+.front, .back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+/* Mirror the content of the card front so that it's correct when flipped */
+.front-content {
+    transform: scaleX(-1);
 }
