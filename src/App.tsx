@@ -11,12 +11,15 @@ function App() {
   const [revealQueue, setRevealQueue] = useState<Array<Card>>([])
 
   function onCardClick(card: Card) {
-    // Flip the card
+    // short-circuit if we already have 2 or more cards revealed
+    if (revealQueue.length > 1) return
     if (card.visibility === 'revealed' || card.matched) console.error('clicked a revealed or matched card')
+
     dispatch({ type: 'flip-card', payload: card.id })
+    const cardToCompare = revealQueue[0]
+    setRevealQueue([...revealQueue, card])
 
     if (revealQueue.length % 2 > 0) {
-      const cardToCompare = revealQueue.at(-1)
       if (cardToCompare === undefined) throw new Error('No card in queue to compare to.')
 
       // One card is already revealed, compare the two
@@ -31,8 +34,6 @@ function App() {
         }, 3000)
       }
     }
-
-    setRevealQueue([...revealQueue, card])
   }
 
   // TODO (LTJ): Extracted this to a useEffect hook because it didn't evaluate right after the `accept-pair` dispatch
