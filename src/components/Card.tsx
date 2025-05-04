@@ -11,16 +11,18 @@ function Card(props: CardProps) {
   const enabled = !props.card.matched && props.card.visibility === 'hidden'
 
   return <div
-    className="playingCard"
+    className="playing-card"
     onClick={() => { if (enabled) props.onClick(props.card) }}
   >
-    {props.card.visibility === 'revealed' ?
-      <span>
-        {props.card.symbol}
-      </span>
-    :
-      <span></span>
-    }
+    <div className={`flip-container ${props.card.visibility === 'revealed' ? 'reveal' : ''}`}>
+      <div className="front">
+        <div className="front-content">
+          <span className="rune">{props.card.symbol}</span>
+          <span>{props.card.label}</span>
+        </div>
+      </div>
+      <div className="back"></div>
+    </div>
   </div>
 }
 
