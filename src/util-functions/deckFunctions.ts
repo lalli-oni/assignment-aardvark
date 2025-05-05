@@ -42,6 +42,7 @@ export function generateDeck(numberOfPairs: number): Array<Card> {
 }
 
 // Returns a copy of a shuffled array
+// NOTE (LTJ): This is not a pure function/seeded randomness
 function shuffle<T>(array: Array<T>): Array<T> {
   // NOTE (LTJ): Not particularly efficient. Chose readability over performance.
   return [...array

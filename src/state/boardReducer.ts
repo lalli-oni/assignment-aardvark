@@ -1,5 +1,6 @@
 import { type Board } from '../models/board';
 import { type Card } from '../models/card';
+
 import { generateDeck } from '../util-functions/deckFunctions';
 
 type BoardAction =
@@ -37,7 +38,7 @@ export function boardReducer(state: Board, action: BoardAction): Board {
     }
     case 'accept-pair': {
       const [firstCardIndex, secondCardIndex] = getCardPairIndices(action.payload, state.cards)
-      const [firstCardMatched, secondCardMatched] = matchCards(action.payload)
+      const [firstCardMatched, secondCardMatched]: [Card, Card] = matchCards(action.payload)
       return {
         ...state,
         cards: state.cards.toSpliced(firstCardIndex, 1, firstCardMatched).toSpliced(secondCardIndex, 1, secondCardMatched)

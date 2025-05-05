@@ -1,6 +1,5 @@
 import "./Board.module.css"
 
-// NOTE (LTJ): removing the type keyword introduces a local module conflict. is this a valid smell?
 import { type Board } from "../models/board"
 
 import Card from "./Card";
