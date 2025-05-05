@@ -2,6 +2,9 @@
 .playing-card {
     height: 7rem;
     width: 5rem;
+
+    /* Ensures cards are evenly distributed on grid */
+    justify-self: center;
 }
 
 .front {
