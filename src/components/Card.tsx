@@ -14,7 +14,7 @@ function Card(props: CardProps) {
     className="playing-card"
     onClick={() => { if (enabled) props.onClick(props.card) }}
   >
-    <div className={`flip-container ${props.card.visibility === 'revealed' ? 'reveal' : ''}`}>
+    <div className='flip-container' style={{ transform: props.card.visibility === 'revealed' ? 'rotateY(180deg)' : undefined }}>
       <div className="front">
         <div className="front-content">
           <span className="rune">{props.card.symbol}</span>

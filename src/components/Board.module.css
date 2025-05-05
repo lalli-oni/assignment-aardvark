@@ -1,12 +1,12 @@
 /* (main) Playing board area */
 main {
-    max-width: 90%;
-    max-height: 90%;
-    padding: 2rem;
+  max-width: 90%;
+  max-height: 90%;
+  padding: 2rem;
 
-    border: 1px solid white;
+  border: 1px solid white;
 
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 1rem;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 1rem;
 }
