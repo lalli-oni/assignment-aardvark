@@ -1,5 +1,7 @@
 import { Card } from "../models/card";
 
+import { shuffle } from "./random";
+
 const elderFutharkRunes = [
   { rune: "ᚠ", transliteration: "f", meaning: "wealth" },
   { rune: "ᚢ", transliteration: "u", meaning: "aurochs" },
@@ -39,14 +41,4 @@ export function generateDeck(numberOfPairs: number): Array<Card> {
   }
 
   return shuffle(deck)
-}
-
-// Returns a copy of a shuffled array
-// NOTE (LTJ): This is not a pure function/seeded randomness
-function shuffle<T>(array: Array<T>): Array<T> {
-  // NOTE (LTJ): Not particularly efficient. Chose readability over performance.
-  return [...array
-          .map((value) => ({ value, sort: Math.random() }))
-          .sort((a, b) => a.sort - b.sort)
-          .map(({ value }) => value)]
 }
