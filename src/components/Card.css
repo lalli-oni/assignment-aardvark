@@ -53,10 +53,6 @@
   transform-style: preserve-3d;
 }
 
-.reveal {
-  transform: rotateY(180deg);
-}
-
 .front,
 .back {
   position: absolute;
