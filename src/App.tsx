@@ -5,6 +5,7 @@ import { boardReducer, initialState } from './state/boardReducer'
 import { type Card } from './models/card'
 
 import Board from './components/Board'
+import Button from './components/Button'
 
 function App() {
   const [state, dispatch] = useReducer(boardReducer, null, initialState)
@@ -45,7 +46,7 @@ function App() {
 
   return (<>
     <div>
-      <button onClick={() => dispatch({ type: 'reset' })}>Reset</button>
+      <Button onClick={() => dispatch({ type: 'reset' })} label="Reset" />
     </div>
     <Board
       boardState={state}
