@@ -27,25 +27,25 @@ const elderFutharkRunes = [
   { rune: "ᛟ", transliteration: "o", meaning: "inheritance" }
 ];
 
-// IDEA (LTJ): could enable triples by updating this to generateDeck(numberOfSets: number, setSize: number)
 export function generateDeck(numberOfPairs: number): Array<Card> {
-	const runes = shuffle(elderFutharkRunes)
-	const deck: Array<Card> = []
-	for (let i = 0; i < numberOfPairs; i++) {
-		const rune = runes.pop()
-		if (rune) {
-			deck.push({ id: crypto.randomUUID(), symbol: rune.rune, label: rune.transliteration, visibility: 'hidden', matched: false })
-			deck.push({ id: crypto.randomUUID(), symbol: rune.rune, label: rune.transliteration, visibility: 'hidden', matched: false })
-		}
-	}
-	return shuffle(deck)
+  const runes = shuffle(elderFutharkRunes)
+  const deck: Array<Card> = []
+  for (let i = 0; i < numberOfPairs; i++) {
+    const rune = runes.pop()
+    if (rune) {
+      deck.push({ id: crypto.randomUUID(), symbol: rune.rune, label: rune.transliteration, visibility: 'hidden', matched: false })
+      deck.push({ id: crypto.randomUUID(), symbol: rune.rune, label: rune.transliteration, visibility: 'hidden', matched: false })
+    }
+  }
+
+  return shuffle(deck)
 }
 
 // Returns a copy of a shuffled array
 function shuffle<T>(array: Array<T>): Array<T> {
-	// NOTE (LTJ): Not particularly efficient. Chose readability over performance.
-	return [...array
-					.map((value) => ({ value, sort: Math.random() }))
-					.sort((a, b) => a.sort - b.sort)
-					.map(({ value }) => value)]
+  // NOTE (LTJ): Not particularly efficient. Chose readability over performance.
+  return [...array
+          .map((value) => ({ value, sort: Math.random() }))
+          .sort((a, b) => a.sort - b.sort)
+          .map(({ value }) => value)]
 }
